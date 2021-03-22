@@ -1,4 +1,4 @@
-const baseApi = 'http://localhost:5000/api/v1/';
+const baseApi = 'http://iyw.datnikon.com/api/v1/';
 // import constants from '../base/constants';
 export function get(url, params = {}) {
     return new Promise((resolve, reject) => {
