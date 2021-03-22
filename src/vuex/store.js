@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import { ADD_ORDER, SET_ORDER } from './mutation-types';
+import constants from "../base/constants";
 const store = createStore({
   state: {
     orders: [],
@@ -13,12 +14,12 @@ const store = createStore({
         state.orders.push(payload);
       }
       const orders = JSON.stringify(state.orders);
-      localStorage.setItem("IYW_ORDER", orders);
+      localStorage.setItem(constants.LOCAL_STORAGE_ORDERS, orders);
     },
     [SET_ORDER](state, payload) {
       state.orders = payload;
       const orders = JSON.stringify(state.orders);
-      localStorage.setItem("IYW_ORDER", orders);
+      localStorage.setItem(constants.LOCAL_STORAGE_ORDERS, orders);
     }
   },
   getters: {

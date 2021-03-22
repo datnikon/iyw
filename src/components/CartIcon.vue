@@ -120,10 +120,11 @@
 
 <script>
 import { SET_ORDER } from "../vuex/mutation-types";
+import constants from "../base/constants";
 export default {
   name: "CartIcon",
   created() {
-    let orders = localStorage.getItem("IYW_ORDER");
+    let orders = localStorage.getItem(constants.LOCAL_STORAGE_ORDERS);
     if (orders) {
       orders = JSON.parse(orders);
       this.$store.commit(SET_ORDER, orders);
