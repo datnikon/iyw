@@ -111,7 +111,7 @@ export default {
   name: "Checkout",
   created() {
     if (this.$store.state.orders) {
-      this.ordersInfor = this.$store.state.orders.filter((x) => x.checked);
+      this.ordersInfor = this.$store.getters.checkedOrders;
     }
   },
   data() {
@@ -151,6 +151,13 @@ export default {
         alert("Vui lòng nhập đầy đủ thông tin");
         return;
       }
+      post("orders", this.makeOrderObject()).then((data) => {
+        this.updateStore();
+        this.updateOrderedItem(data.data);
+        this.isSuccess = true;
+      });
+    },
+    makeOrderObject() {
       const deliverInfor = {
         name: this.name,
         phone: this.phone,
@@ -174,11 +181,7 @@ export default {
         deliverInfor,
         orderInfor,
       };
-      post("orders", orderObject).then((data) => {
-        this.updateStore();
-        this.udateOrderedIte(data.data);
-        this.isSuccess = true;
-      });
+      return orderObject;
     },
     updateStore() {
       const newOrders = this.$store.state.orders;
@@ -189,7 +192,7 @@ export default {
       });
       this.$store.commit("SET_ORDER", newOrders);
     },
-    udateOrderedIte(data) {
+    updateOrderedItem(data) {
       let ordered = JSON.parse(localStorage.getItem("IYW_ORDERED"));
       if (ordered && Array.isArray(ordered)) {
         ordered.push(data);
@@ -197,7 +200,6 @@ export default {
         ordered = [data];
       }
       localStorage.setItem("IYW_ORDERED", JSON.stringify(ordered));
-      console.log(JSON.parse(localStorage.getItem("IYW_ORDERED")));
     },
     validate() {
       return (

@@ -125,9 +125,9 @@ export default {
     let orders = localStorage.getItem("IYW_ORDER");
     if (orders) {
       orders = JSON.parse(orders);
-      this.orders = orders;
       this.$store.commit("SET_ORDER", orders);
     }
+    this.orders = this.$store.state.orders;
   },
   data() {
     return { orders: [] };

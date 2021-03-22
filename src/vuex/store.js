@@ -20,6 +20,11 @@ const store = createStore({
       const orders = JSON.stringify(state.orders);
       localStorage.setItem("IYW_ORDER", orders);
     }
+  },
+  getters: {
+    checkedOrders: state => {
+      return state.orders.filter((x) => x.checked);
+    }
   }
 })
 
