@@ -90,6 +90,7 @@
 import { get } from "../base/api";
 import SelectNumber from "./SelectNumber";
 import Size from "./Size";
+import { ADD_ORDER } from "../vuex/mutation-types";
 export default {
   name: "Detail",
   components: { SelectNumber, Size },
@@ -121,7 +122,7 @@ export default {
         return;
       }
 
-      this.$store.commit("ADD_ORDER", {
+      this.$store.commit(ADD_ORDER, {
         ...this.product,
         orderNumber: this.number,
         orderSize: this.size,

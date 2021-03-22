@@ -107,6 +107,7 @@
 
 <script>
 import { post } from "../base/api";
+import { SET_ORDER } from "../vuex/mutation-types";
 export default {
   name: "Checkout",
   created() {
@@ -190,7 +191,7 @@ export default {
           newOrders.splice(index, 1);
         }
       });
-      this.$store.commit("SET_ORDER", newOrders);
+      this.$store.commit(SET_ORDER, newOrders);
     },
     updateOrderedItem(data) {
       let ordered = JSON.parse(localStorage.getItem("IYW_ORDERED"));

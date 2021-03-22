@@ -119,13 +119,14 @@
 </template>
 
 <script>
+import { SET_ORDER } from "../vuex/mutation-types";
 export default {
   name: "CartIcon",
   created() {
     let orders = localStorage.getItem("IYW_ORDER");
     if (orders) {
       orders = JSON.parse(orders);
-      this.$store.commit("SET_ORDER", orders);
+      this.$store.commit(SET_ORDER, orders);
     }
     this.orders = this.$store.state.orders;
   },

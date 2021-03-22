@@ -72,6 +72,7 @@
 
 <script>
 import SelectNumber from "./SelectNumber";
+import { SET_ORDER } from "../vuex/mutation-types";
 export default {
   name: "Orders",
   methods: {
@@ -80,11 +81,11 @@ export default {
       this.updateStore();
     },
     updateStore() {
-      this.$store.commit("SET_ORDER", this.orders);
+      this.$store.commit(SET_ORDER, this.orders);
     },
     setNumber(index, newNumber) {
       this.orders[index].orderNumber = newNumber;
-      this.$store.commit("SET_ORDER", this.orders);
+      this.$store.commit(SET_ORDER, this.orders);
     },
     getMaxOfNumber(item) {
       return item.sizes.filter((x) => x.size === item.orderSize)[0].number;
