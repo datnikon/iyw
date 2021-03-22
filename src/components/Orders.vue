@@ -7,55 +7,59 @@
     <h1>Chưa có sản phẩm nào</h1>
   </div>
   <div>
-    <div v-for="(item, index) in orders" :key="item._id" class="row order-item">
-      <div class="orders__item col l-6 m-12 c-12">
-        <input type="checkbox" v-model="item.checked" />
-        <img v-bind:src="item.images[0]" alt="Hình sản phẩm" />
-        <div class="name-infor">
-          <router-link v-bind:to="`/detail/${item.slug}`">{{
-            item.name
-          }}</router-link>
-          <div class="show-on-mobile show-on-tablet hide-on-pc">
-            <div class="orders__infor col l-6 c-6 c-12">
-              <div class="orders__price-size">
-                {{ item.price.toLocaleString() }} Size: {{ item.orderSize }}
+    <transition-group name="list" tag="div">
+      <div v-for="(item, index) in orders" :key="index" class="row order-item">
+        <div class="orders__item col l-6 m-12 c-12">
+          <input type="checkbox" v-model="item.checked" />
+          <img v-bind:src="item.images[0]" alt="Hình sản phẩm" />
+          <div class="name-infor">
+            <router-link v-bind:to="`/detail/${item.slug}`">{{
+              item.name
+            }}</router-link>
+            <div class="show-on-mobile show-on-tablet hide-on-pc">
+              <div class="orders__infor col l-6 c-6 c-12">
+                <div class="orders__price-size">
+                  {{ item.price.toLocaleString() }} Size: {{ item.orderSize }}
+                </div>
+                <SelectNumber
+                  :max="item.number"
+                  :value="item.orderNumber"
+                  :showNumberBelow="true"
+                  v-on:change="setNumber(index, $event)"
+                />
               </div>
-              <SelectNumber
-                :max="item.number"
-                :value="item.orderNumber"
-                :showNumberBelow="true"
-                v-on:change="setNumber(index, $event)"
-              />
             </div>
           </div>
-        </div>
 
-        <span
-          @click="deleteItem(index, item.orderSize)"
-          class="hide-on-pc orders__action"
-          >Xóa</span
-        >
-      </div>
-      <div class="hide-on-mobile hide-on-tablet orders__infor col l-6 m-6 c-12">
-        <div class="col l-3 m-3">Size: {{ item.orderSize }}</div>
-        <div class="col l-3 m-3">{{ item.price.toLocaleString() }}</div>
-        <div class="col l-3 m-3">
-          <SelectNumber
-            :max="getMaxOfNumber(item)"
-            :value="item.orderNumber"
-            :showNumberBelow="true"
-            v-on:change="setNumber(index, $event)"
-          />
-        </div>
-        <div class="col l-3 m-3">
           <span
             @click="deleteItem(index, item.orderSize)"
-            class="orders__action"
+            class="hide-on-pc orders__action"
             >Xóa</span
           >
         </div>
+        <div
+          class="hide-on-mobile hide-on-tablet orders__infor col l-6 m-6 c-12"
+        >
+          <div class="col l-3 m-3">Size: {{ item.orderSize }}</div>
+          <div class="col l-3 m-3">{{ item.price.toLocaleString() }}</div>
+          <div class="col l-3 m-3">
+            <SelectNumber
+              :max="getMaxOfNumber(item)"
+              :value="item.orderNumber"
+              :showNumberBelow="true"
+              v-on:change="setNumber(index, $event)"
+            />
+          </div>
+          <div class="col l-3 m-3">
+            <span
+              @click="deleteItem(index, item.orderSize)"
+              class="orders__action"
+              >Xóa</span
+            >
+          </div>
+        </div>
       </div>
-    </div>
+    </transition-group>
   </div>
   <div v-if="orders && orders.length > 0" class="summary">
     <div class="summary__infor">
@@ -218,6 +222,15 @@ export default {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s;
+}
+
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
 }
 
 @media (min-width: 740px) and (max-width: 1023px) {
